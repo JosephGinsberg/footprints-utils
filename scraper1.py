@@ -5,6 +5,7 @@ Created on Jul 12, 2018
 '''
 import requests
 from bs4 import BeautifulSoup
+import argparse
 
 def MARCs (URL):
     URL += 'format=001'
@@ -31,11 +32,16 @@ def MARCs (URL):
                     dic['Printings'] = str(nextPiece.string.encode('utf-8'))          
     return dic
 
-def main():
-    url = 'http://aleph.nli.org.il/F/R61R8LUHDTVD8XRJYKMA8CR43EKHNN6L5RH6BT1A9DERMRKH1S-00048?func=direct&doc_number=001334493&'
-    x = MARCs(url)
+def main(args):
+    x = MARCs(args)
     for i in x:
         print i + ': ' + x[i]
+ 
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Accept arguments")
+    parser.add_argument('-url', '--url', required=True)
+    return parser.parse_args()
      
 if __name__ == '__main__':
-    main()
+    args = parse_arguments()
+    main(args)
